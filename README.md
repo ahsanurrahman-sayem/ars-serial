@@ -6,7 +6,7 @@
 ### Installation
 
 ```bash
-python3 -m pip install https://github.com/ahsanurrahman-sayem/ars-utils/releases/download/latest/ars-serial-0.0.1-py3-none-any.whl
+python3 -m pip install --verbose https://github.com/ahsanurrahman-sayem/ars-utils/releases/download/latest/ars-serial-0.0.1-py3-none-any.whl
 ```
 
 ## Usage - com Module
@@ -14,6 +14,14 @@ python3 -m pip install https://github.com/ahsanurrahman-sayem/ars-utils/releases
 ```python
 from ars import Com1Receiver
 
+receiver = Com1Receiver()
+
+	try:
+		while True:
+			print("Latest:", receiver.data())
+			time.sleep(1)
+	except KeyboardInterrupt:
+		receiver.on_close()
 ```
 
 ## Contributing
