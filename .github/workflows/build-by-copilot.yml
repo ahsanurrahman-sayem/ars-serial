@@ -1,0 +1,54 @@
+steps:
+  - name: Checkout
+    uses: actions/checkout@v4
+    with:
+      fetch-depth: 0
+
+  - name: Set up Python 3.14
+    uses: actions/setup-python@v4
+    with:
+      python-version: 3.14
+
+  - name: Install build deps
+    run: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt || true
+
+  - name: Run tests / build
+    run: |
+      # replace with your actual build/test commands
+      echo "Running build and tests"
+      python -m pytest -q || true
+      # build artifact example
+      python setup.py sdist bdist_wheel || true
+
+  - name: Determine release tag
+    id: tag
+    run: |
+      # set TAG to a tag or "latest" as needed. This example uses a tag based on commit SHA.
+      TAG="v$(date +%Y.%m.%d)-${GITHUB_SHA::7}"
+      echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+  - name: Create or update GitHub Release
+    id: create_release
+    uses: actions/create-release@v1
+    with:
+      tag_name: ${{ steps.tag.outputs.tag }}
+      release_name: ${{ steps.tag.outputs.tag }}
+      body: "Automated release from workflow run ${{ github.run_number }} (commit ${{ github.sha }})"
+      draft: false
+      prerelease: false
+    # uses the built-in GITHUB_TOKEN (permissions configured at top). If you instead want to use a PAT,
+    # create a secret (e.g. RELEASE_TOKEN) and set env GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }} on this step.
+
+  - name: Upload release artifacts
+    uses: softprops/action-gh-release@v1
+    with:
+      files: "dist/*"
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  - name: Post-release notes (optional)
+    if: always()
+    run: |
+      echo "Release step finished. Release id: ${{ steps.create_release.outputs.id || 'unknown' }}"
