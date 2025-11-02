@@ -5,9 +5,7 @@
 
 ### Installation
 
-```bash
-python3 -m pip install --verbose https://github.com/ahsanurrahman-sayem/ars-utils/releases/download/latest/ars-serial-0.0.1-py3-none-any.whl
-```
+``Please check - <a href="https://github.com/ahsanurrahman-sayem/ars-serial/releases">Latest Release</a>``
 
 ## Usage - com Module
 
