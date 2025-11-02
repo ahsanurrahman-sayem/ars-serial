@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "com"
+version = "0.0.1"
+authors = [
+	{name="Ahsanur Rahman Sayem", email="ahsanurrahman10000@icloud.com"}
+]
+
+
+description = "A package that contain that used to read data from com1 serial port of windowes, and the data is coming from a device named XK3190-D10."
+
+
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+        "Operating System :: OS Independent",]
+
+
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+dependencies = ["pyserial"]
+        
+[project.urls]
+Homepage = "https://github.com/ahsanurrahman-sayem/ars-serial"
+ 
+Issues = "https://github.com/ahsanurrahman-sayem/ars-serial/issues"
