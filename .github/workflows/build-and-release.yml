@@ -17,6 +17,14 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install build tools
         run: pip install build toml pyserial
 
@@ -29,13 +37,44 @@ jobs:
       - name: Build package
         run: python -m build
 
-      - name: Upload to 'latest' GitHub Release
+      - name: Move or recreate 'latest' tag
+        run: |
+          git tag -f latest
+          git push origin -f latest
+
+      - name: Upload to GitHub Release (versioned)
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: latest
-          name: Latest Release
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: "Release v${{ steps.get_version.outputs.version }}"
           files: dist/*
           draft: false
           prerelease: false
+          body: |
+            ## Changelog
+            - Automated release for version **${{ steps.get_version.outputs.version }}**
+
+            ### Install directly:
+            ```bash
+            python -m pip install --verbose https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/$(basename $(ls dist/*.whl))
+            ```
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload or update 'latest' Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: "Latest Release"
+          files: dist/*
+          draft: false
+          prerelease: false
+          body: |
+            ## Latest build for version **${{ steps.get_version.outputs.version }}**
+
+            ### Install directly:
+            ```bash
+            python -m pip install --verbose https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/$(basename $(ls dist/*.whl))
+            ```
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
