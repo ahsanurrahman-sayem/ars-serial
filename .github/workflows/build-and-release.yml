@@ -64,7 +64,7 @@ jobs:
 
             ### Install directly:
             ```bash
-            python -m pip install --verbose https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/${{($basename $(ls dist/*.whl))}}
+            python -m pip install --verbose https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/${{$(basename $(ls dist/*.whl))}}
             ```
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
