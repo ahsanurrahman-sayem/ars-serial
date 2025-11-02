@@ -5,7 +5,7 @@
 
 ### Installation
 
-``Please check - <a href="https://github.com/ahsanurrahman-sayem/ars-serial/releases">Latest Release</a>``
+- Please check - <a href="https://github.com/ahsanurrahman-sayem/ars-serial/releases">Latest Release</a>
 
 ## Usage - com Module
 
