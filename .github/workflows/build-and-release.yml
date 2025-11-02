@@ -45,10 +45,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Move or recreate 'latest' tag
-        run: |
-          git tag -f latest
-          git push origin -f latest
+      #- name: Move or recreate 'latest' tag
+       # run: |
+        #  git tag -f latest
+         # git push origin -f latest
 
       - name: Upload to GitHub Release (versioned)
         uses: softprops/action-gh-release@v2
@@ -64,7 +64,7 @@ jobs:
 
             ### Install directly:
             ```bash
-            python -m pip install --verbose https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/{{($basename $(ls dist/*.whl))}}
+            python -m pip install --verbose https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/${{($basename $(ls dist/*.whl))}}
             ```
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
