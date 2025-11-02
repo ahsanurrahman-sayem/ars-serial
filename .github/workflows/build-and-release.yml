@@ -64,25 +64,25 @@ jobs:
 
             ### Install directly:
             ```bash
-            python -m pip install --verbose https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/$(basename $(ls dist/*.whl))
+            python -m pip install --verbose https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/${{(basename $(ls dist/*.whl))}}
             ```
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload or update 'latest' Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: latest
-          name: "Latest Release"
-          files: dist/*
-          draft: false
-          prerelease: false
-          body: |
+      #- name: Upload or update 'latest' Release
+        #uses: softprops/action-gh-release@v2
+        #with:
+          #tag_name: latest
+          #name: "Latest Release"
+          #files: dist/*
+          #draft: false
+          #prerelease: false
+          #body: |
             ## Latest build for version **${{ steps.get_version.outputs.version }}**
 
             ### Install directly:
-            ```bash
-            python -m pip install --verbose https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/$(basename $(ls dist/*.whl))
-            ```
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           # ```bash
+            #python -m pip install --verbose https://github.com/${{ github.repository }}/releases/download/v${{ steps.get_version.outputs.version }}/${{(basename $(ls dist/*.whl))}}
+            #```
+        #env:
+         # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
